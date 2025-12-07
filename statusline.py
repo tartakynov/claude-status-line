@@ -8,6 +8,7 @@ def estimate_context_length(transcript_path):
 
     if os.path.exists(transcript_path):
         with open(transcript_path, 'r', encoding='utf-8') as f:
+            last_usage = None
             for line in f:
                 line = line.strip()
                 if not line:
@@ -18,16 +19,17 @@ def estimate_context_length(transcript_path):
                     usage = data.get('usage', {})
                     if not usage and 'message' in data and isinstance(data['message'], dict):
                         usage = data['message'].get('usage', {})
-                    
-                    if not usage:
-                        continue
 
-                    input_tokens = usage.get('input_tokens', 0)
-                    cache_read_input_tokens = usage.get('cache_read_input_tokens', 0)
-                    cache_creation_input_tokens = usage.get('cache_creation_input_tokens', 0)
-                    context_length += input_tokens + cache_read_input_tokens + cache_creation_input_tokens
+                    if usage:
+                        last_usage = usage
                 except (json.JSONDecodeError, ValueError, TypeError):
                     continue
+
+            if last_usage:
+                input_tokens = last_usage.get('input_tokens', 0)
+                cache_read_input_tokens = last_usage.get('cache_read_input_tokens', 0)
+                cache_creation_input_tokens = last_usage.get('cache_creation_input_tokens', 0)
+                context_length = input_tokens + cache_read_input_tokens + cache_creation_input_tokens
 
     return context_length
 
