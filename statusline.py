@@ -30,8 +30,9 @@ def colorize(text, color):
 def estimate_context_length(transcript_path):
     """Estimate the context length from the transcript file.
 
-    Reads the transcript file and extracts token usage information from the last
-    usage entry. Sums input tokens, cache read tokens, and cache creation tokens.
+    Reads the transcript file and gets the last usage entry.
+    Sums input tokens, cache read tokens, and cache creation tokens to estimate
+    the current context length.
 
     Args:
         transcript_path: Path to the transcript file

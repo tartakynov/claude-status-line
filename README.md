@@ -16,7 +16,7 @@ The status line shows the following information separated by `|`:
 
 Example output:
 ```
-🤖 Sonnet 4.5 | claude-status-line | 🌿 main | context length: 42K tokens | 💰 $0.15
+🤖 Sonnet 4.5 | 📁 claude-status-line | 🌿 main | context length: 42K tokens | 💰 $0.15
 ```
 
 ## Installation
